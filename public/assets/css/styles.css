@@ -303,3 +303,8 @@ p { margin: 0 0 1em; }
   .cabecera { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--crema); }
 }
 .paso .galeria img { aspect-ratio: 4 / 3; }
+
+/* Mapa */
+.mapa-marco { margin-top: 28px; border-radius: var(--radio); overflow: hidden; box-shadow: var(--sombra); background: var(--hoja-claro); aspect-ratio: 16 / 7; min-height: 320px; }
+.mapa-marco iframe { width: 100%; height: 100%; border: 0; display: block; }
+@media (max-width: 700px) { .mapa-marco { aspect-ratio: 4 / 5; } }
