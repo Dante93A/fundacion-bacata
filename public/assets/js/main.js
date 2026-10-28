@@ -7,9 +7,6 @@
     // Endpoint del feed de Instagram (Cloudflare Pages Function en /functions/api/instagram.js)
     instagramApi: "/api/instagram",
     instagramUrl: "https://www.instagram.com/bacata_fundacion_ecologica/",
-    // Formulario de contacto: clave gratuita de https://web3forms.com (llega al correo de la fundación).
-    // Mientras diga REEMPLAZAR, el formulario abre el correo del visitante como respaldo.
-    web3formsKey: "REEMPLAZAR_CON_ACCESS_KEY_DE_WEB3FORMS",
     correo: "fundacion@febacata.org"
   };
 
@@ -100,6 +97,29 @@
     if (e.key === "ArrowRight") mostrar(idx + 1);
   });
 
+  /* ================= Facebook (Page Plugin) ================= */
+  // El iframe de Facebook no se adapta solo: se arma con el ancho real del contenedor
+  // (entre 180 y 500 px, límites del plugin) y se rehace si cambia el tamaño de la pantalla.
+  var fbBox = document.getElementById("fb-feed");
+  if (fbBox) {
+    var fbAncho = 0, fbTimer = null;
+    var pintarFb = function () {
+      var ancho = Math.max(180, Math.min(500, Math.floor(fbBox.clientWidth)));
+      if (Math.abs(ancho - fbAncho) < 20) return;
+      fbAncho = ancho;
+      var params = new URLSearchParams({
+        href: fbBox.getAttribute("data-page"), tabs: "timeline", width: ancho, height: 620,
+        small_header: "false", adapt_container_width: "true", hide_cover: "false",
+        show_facepile: "false", locale: "es_LA"
+      });
+      fbBox.innerHTML = '<iframe title="Publicaciones de Facebook de la Fundación Ecológica Bacatá" loading="lazy" ' +
+        'width="' + ancho + '" height="620" scrolling="no" allow="encrypted-media; clipboard-write; web-share" ' +
+        'src="https://www.facebook.com/plugins/page.php?' + params.toString() + '"></iframe>';
+    };
+    pintarFb();
+    window.addEventListener("resize", function () { clearTimeout(fbTimer); fbTimer = setTimeout(pintarFb, 250); });
+  }
+
   /* ================= Feed de Instagram ================= */
   var igGrid = document.getElementById("ig-feed");
   if (igGrid) {
@@ -130,45 +150,4 @@
       .catch(vacio);
   }
 
-  /* ================= Formulario de contacto ================= */
-  var form = document.getElementById("form-contacto");
-  if (form) {
-    var estado = form.querySelector(".estado");
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (form.querySelector('[name="botcheck"]').checked) return;
-      var datos = new FormData(form);
-      var sinClave = CONFIG.web3formsKey.indexOf("REEMPLAZAR") === 0;
-
-      if (sinClave) {
-        var asunto = encodeURIComponent("Mensaje desde la web - " + (datos.get("nombre") || ""));
-        var cuerpo = encodeURIComponent(
-          "Nombre: " + datos.get("nombre") + "\nCorreo: " + datos.get("email") +
-          "\nTeléfono: " + (datos.get("telefono") || "") + "\n\n" + datos.get("mensaje"));
-        window.location.href = "mailto:" + CONFIG.correo + "?subject=" + asunto + "&body=" + cuerpo;
-        return;
-      }
-
-      datos.append("access_key", CONFIG.web3formsKey);
-      datos.append("subject", "Nuevo mensaje desde la web de Fundación Bacatá");
-      datos.append("from_name", "Web Fundación Bacatá");
-      var boton = form.querySelector("button[type=submit]");
-      boton.disabled = true;
-      estado.className = "estado";
-      estado.textContent = "Enviando…";
-      fetch("https://api.web3forms.com/submit", { method: "POST", body: datos })
-        .then(function (r) { return r.json(); })
-        .then(function (j) {
-          if (!j.success) throw new Error(j.message);
-          form.reset();
-          estado.className = "estado ok";
-          estado.textContent = "¡Gracias por tu mensaje!";
-        })
-        .catch(function () {
-          estado.className = "estado error";
-          estado.textContent = "No pudimos enviar el mensaje. Escríbenos a " + CONFIG.correo;
-        })
-        .then(function () { boton.disabled = false; });
-    });
-  }
 })();
