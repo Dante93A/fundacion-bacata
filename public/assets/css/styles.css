@@ -314,3 +314,19 @@ p { margin: 0 0 1em; }
 .nota-llegada ol { margin: 0; padding-left: 1.2em; }
 .nota-llegada li { margin-bottom: 4px; }
 .nota-icono svg { width: 28px; height: 28px; color: var(--tierra); flex: none; margin-top: 2px; }
+
+.fb-marco { min-height: 620px; }
+.fb-marco iframe { width: 100%; max-width: 500px; }
+.fb-ayuda { margin: 12px 0 0; font-size: .9rem; color: var(--tinta-suave); text-align: center; }
+
+/* Contacto sin formulario */
+.contacto-simple { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 5vw, 60px); align-items: center; }
+@media (max-width: 860px) { .contacto-simple { grid-template-columns: 1fr; } }
+.contacto-acciones { display: grid; gap: 14px; justify-items: start; }
+.contacto-acciones .botones { margin-top: 0; }
+.contacto-acciones .btn-primario { font-size: 1.05rem; padding: 15px 24px; overflow-wrap: anywhere; }
+
+/* Crédito de la foto del inicio (se oculta si está vacío) */
+.hero-inicio { background-position: center; }
+.credito-foto { position: absolute; right: 16px; bottom: 10px; margin: 0; font-size: .75rem; color: rgba(255,255,255,.75); z-index: 1; }
+.credito-foto:empty { display: none; }
