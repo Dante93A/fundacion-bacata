@@ -330,3 +330,21 @@ p { margin: 0 0 1em; }
 .hero-inicio { background-position: center; }
 .credito-foto { position: absolute; right: 16px; bottom: 10px; margin: 0; font-size: .75rem; color: rgba(255,255,255,.75); z-index: 1; }
 .credito-foto:empty { display: none; }
+
+/* Tarjetas que llevan a otra página: botón visible y área de clic clara (público mayor) */
+.tarjeta:has(.cubrir) { display: flex; flex-direction: column; cursor: pointer; border-width: 2px; }
+.tarjeta:has(.cubrir) p { font-size: 1.05rem; margin-bottom: 22px; }
+.tarjeta:has(.cubrir):hover { border-color: var(--tierra); transform: translateY(-4px); }
+.tarjeta:has(.cubrir:focus-visible) { outline: 3px solid var(--tierra); outline-offset: 3px; }
+.tarjeta .cubrir:focus-visible { outline: none; }
+.ver-mas {
+  margin-top: auto; align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; border-radius: 999px;
+  background: var(--tierra); color: #fff; font-weight: 800; font-size: 1.05rem;
+  transition: gap .2s, background .2s;
+}
+.ver-mas svg { width: 20px; height: 20px; }
+.tarjeta:has(.cubrir):hover .ver-mas { background: #9e6222; gap: 12px; }
+.seccion-verde .tarjeta:has(.cubrir) { border-color: rgba(255,255,255,.22); }
+.seccion-verde .tarjeta:has(.cubrir):hover { border-color: var(--tierra-claro); background: rgba(255,255,255,.1); }
