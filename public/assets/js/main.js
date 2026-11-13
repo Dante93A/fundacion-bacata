@@ -102,6 +102,8 @@
   });
 
   /* ================= Facebook (Page Plugin) ================= */
+  // Solo se muestra la tarjeta de la página (nombre, foto, seguidores y botón Seguir):
+  // Facebook ya no muestra las publicaciones a quien no ha iniciado sesión.
   // El iframe de Facebook no se adapta solo: se arma con el ancho real del contenedor
   // (entre 180 y 500 px, límites del plugin) y se rehace si cambia el tamaño de la pantalla.
   var fbBox = document.getElementById("fb-feed");
@@ -112,12 +114,12 @@
       if (Math.abs(ancho - fbAncho) < 20) return;
       fbAncho = ancho;
       var params = new URLSearchParams({
-        href: fbBox.getAttribute("data-page"), tabs: "timeline", width: ancho, height: 620,
+        href: fbBox.getAttribute("data-page"), tabs: "", width: ancho, height: 150,
         small_header: "false", adapt_container_width: "true", hide_cover: "false",
         show_facepile: "false", locale: "es_LA"
       });
       fbBox.innerHTML = '<iframe title="Publicaciones de Facebook de la Fundación Ecológica Bacatá" loading="lazy" ' +
-        'width="' + ancho + '" height="620" scrolling="no" allow="encrypted-media; clipboard-write; web-share" ' +
+        'width="' + ancho + '" height="150" scrolling="no" allow="encrypted-media; clipboard-write; web-share" ' +
         'src="https://www.facebook.com/plugins/page.php?' + params.toString() + '"></iframe>';
     };
     pintarFb();
