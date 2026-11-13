@@ -137,20 +137,77 @@
 </section>
 
 <section class="seccion seccion-verde" id="contacto">
-  <div class="contenedor contacto-simple">
+  <div class="contenedor contacto-grid">
     <div>
       <span class="sobretitulo">Contacto</span>
-      <h2>Contáctanos</h2>
-      <p class="intro">¿Quieres participar como voluntario, hacer tu servicio social ambiental o trabajar con nosotros desde tu colegio u organización? Escríbenos o búscanos en redes.</p>
+      <h2>Súmate a Bacatá</h2>
+      <p class="intro">¿Quieres ayudar como voluntario o hacer tu servicio social ambiental? ¿Eres una fundación, colegio u organización y quieres trabajar con nosotros? Elige una opción y déjanos tus datos.</p>
+      <div class="dato"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><div><strong>Como ayudante</strong>Apoya la huerta, la biblioteca, las salidas ecológicas y los talleres.</div></div>
+      <div class="dato"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.2-6.1 2.4-.5 4.8-2 5.8-3.9"/></svg><div><strong>Como organización</strong>Proyectos conjuntos, voluntariado, donaciones o capacitaciones.</div></div>
+      <div class="dato"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg><div><strong>¿Prefieres escribirnos?</strong><a href="mailto:febacata@yahoo.es?subject=Contacto%20desde%20la%20p%C3%A1gina%20web">febacata@yahoo.es</a></div></div>
     </div>
-    <div class="contacto-acciones">
-      <a class="btn btn-primario" href="mailto:febacata@yahoo.es?subject=Contacto%20desde%20la%20p%C3%A1gina%20web">Escríbenos: febacata@yahoo.es</a>
-      <div class="botones">
-        <a class="btn btn-claro" href="https://www.facebook.com/fundacionecologicabacata.febacata" target="_blank" rel="noopener">Facebook</a>
-        <a class="btn btn-claro" href="https://www.instagram.com/fundacionecologicabacataf/" target="_blank" rel="noopener">Instagram</a>
-        <a class="btn btn-claro" href="#ubicacion">Cómo llegar</a>
+    <form class="formulario" id="form-contacto" novalidate>
+      <p class="pregunta" id="tipo-label">¿Cómo quieres participar?</p>
+      <div class="selector-tipo" role="radiogroup" aria-labelledby="tipo-label">
+        <label class="opcion"><input type="radio" name="tipo" value="Ayudante" checked>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><strong>Quiero ayudar</strong><small>Voluntariado o servicio social</small></span></label>
+        <label class="opcion"><input type="radio" name="tipo" value="Organización">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.2-6.1 2.4-.5 4.8-2 5.8-3.9"/></svg><strong>Soy una organización</strong><small>Fundación, colegio, empresa…</small></span></label>
       </div>
-    </div>
+
+      <fieldset data-tipo="Ayudante">
+        <legend class="visually-hidden">Datos del ayudante</legend>
+        <div class="campo"><label for="a-nombre">Nombre completo *</label><input id="a-nombre" name="nombre" required autocomplete="name" maxlength="120"></div>
+        <div class="fila">
+          <div class="campo"><label for="a-email">Correo electrónico *</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="120"></div>
+          <div class="campo"><label for="a-tel">Celular / WhatsApp *</label><input id="a-tel" name="telefono" type="tel" required autocomplete="tel" maxlength="30"></div>
+        </div>
+        <div class="fila">
+          <div class="campo"><label for="a-barrio">Barrio o localidad</label><input id="a-barrio" name="barrio" maxlength="120"></div>
+          <div class="campo"><label for="a-disp">Disponibilidad</label>
+            <select id="a-disp" name="disponibilidad"><option>Fines de semana</option><option>Entre semana</option><option>Ambos</option><option>Por definir</option></select></div>
+        </div>
+        <div class="campo"><span class="etiqueta-campo">¿En qué te gustaría ayudar?</span>
+          <div class="chips">
+            <label><input type="checkbox" name="intereses" value="Huerta comunitaria"><span>Huerta comunitaria</span></label>
+            <label><input type="checkbox" name="intereses" value="Biblioteca y lectura"><span>Biblioteca y lectura</span></label>
+            <label><input type="checkbox" name="intereses" value="Servicio Social Ambiental"><span>Servicio social ambiental</span></label>
+            <label><input type="checkbox" name="intereses" value="Salidas ecológicas"><span>Salidas ecológicas</span></label>
+            <label><input type="checkbox" name="intereses" value="Talleres de reciclaje"><span>Talleres de reciclaje</span></label>
+            <label><input type="checkbox" name="intereses" value="Donde se necesite"><span>Donde se necesite</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-tipo="Organización" hidden disabled>
+        <legend class="visually-hidden">Datos de la organización</legend>
+        <div class="fila">
+          <div class="campo"><label for="o-org">Nombre de la organización *</label><input id="o-org" name="organizacion" required autocomplete="organization" maxlength="150"></div>
+          <div class="campo"><label for="o-tipo">Tipo de organización</label>
+            <select id="o-tipo" name="tipo_org"><option>Fundación / ONG</option><option>Colegio o universidad</option><option>Junta de Acción Comunal</option><option>Empresa</option><option>Entidad pública</option><option>Otra</option></select></div>
+        </div>
+        <div class="fila">
+          <div class="campo"><label for="o-contacto">Persona de contacto *</label><input id="o-contacto" name="contacto" required autocomplete="name" maxlength="120"></div>
+          <div class="campo"><label for="o-cargo">Cargo</label><input id="o-cargo" name="cargo" autocomplete="organization-title" maxlength="120"></div>
+        </div>
+        <div class="fila">
+          <div class="campo"><label for="o-email">Correo electrónico *</label><input id="o-email" name="email" type="email" required autocomplete="email" maxlength="120"></div>
+          <div class="campo"><label for="o-tel">Teléfono *</label><input id="o-tel" name="telefono" type="tel" required autocomplete="tel" maxlength="30"></div>
+        </div>
+        <div class="fila">
+          <div class="campo"><label for="o-web">Sitio web o red social</label><input id="o-web" name="web" maxlength="200" placeholder="https://"></div>
+          <div class="campo"><label for="o-prop">¿Qué propones?</label>
+            <select id="o-prop" name="propuesta"><option>Proyecto conjunto</option><option>Voluntariado</option><option>Donación</option><option>Capacitación o taller</option><option>Otra</option></select></div>
+        </div>
+      </fieldset>
+
+      <div class="campo"><label for="f-msg">Cuéntanos un poco más *</label><textarea id="f-msg" name="mensaje" required maxlength="2000"></textarea></div>
+      <label class="autorizo"><input type="checkbox" name="autorizacion" value="Sí" required>
+        <span>Autorizo a la Fundación Ecológica Bacatá a tratar mis datos personales para contactarme, según la Ley 1581 de 2012.</span></label>
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-primario" type="submit">Enviar</button>
+      <p class="estado" role="status"></p>
+    </form>
   </div>
 </section>
 
