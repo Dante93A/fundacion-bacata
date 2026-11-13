@@ -183,6 +183,34 @@
     });
     cambiarTipo();
 
+    // Teléfono: solo números, espacios, +, guiones y paréntesis; entre 7 y 15 dígitos.
+    form.querySelectorAll('input[type="tel"]').forEach(function (tel) {
+      tel.addEventListener("input", function () {
+        var limpio = tel.value.replace(/[^0-9+()\- ]/g, "");
+        if (limpio !== tel.value) tel.value = limpio;
+        tel.setCustomValidity("");
+      });
+    });
+    function validarExtra() {
+      var ok = true;
+      form.querySelectorAll("fieldset:not([disabled]) input[type=\"tel\"]").forEach(function (tel) {
+        var digitos = tel.value.replace(/\D/g, "").length;
+        tel.setCustomValidity(digitos >= 7 && digitos <= 15 ? "" : "Escribe un número de teléfono válido (entre 7 y 15 números).");
+        if (tel.validity.customError) ok = false;
+      });
+      // Campos obligatorios que solo tienen espacios en blanco
+      form.querySelectorAll("fieldset:not([disabled]) [required], textarea[required]").forEach(function (c) {
+        if (c.type === "checkbox") return;
+        var vacio = c.value.trim() === "";
+        if (c.type !== "tel") c.setCustomValidity(vacio ? "Este campo es obligatorio." : "");
+        if (vacio) ok = false;
+      });
+      return ok;
+    }
+    form.addEventListener("input", function (e) {
+      if (e.target.type !== "tel") e.target.setCustomValidity && e.target.setCustomValidity("");
+    });
+
     function recolectar() {
       var fd = new FormData(form);
       var datos = {};
@@ -211,6 +239,7 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (form.querySelector('[name="botcheck"]').checked) return;
+      validarExtra();
       if (!form.checkValidity()) {
         form.reportValidity();
         estado.className = "estado error";
