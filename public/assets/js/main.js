@@ -6,7 +6,7 @@
   var CONFIG = {
     // Endpoint del feed de Instagram (Cloudflare Pages Function en /functions/api/instagram.js)
     instagramApi: "/api/instagram",
-    instagramUrl: "https://www.instagram.com/bacata_fundacion_ecologica/",
+    instagramUrl: "https://www.instagram.com/fundacionecologicabacataf/",
     correo: "fundacion@febacata.org"
   };
 
@@ -133,7 +133,7 @@
     var vacio = function () {
       igGrid.outerHTML =
         '<div class="ig-vacio"><p>Mira nuestras publicaciones más recientes en Instagram.</p>' +
-        '<a class="btn btn-verde" href="' + CONFIG.instagramUrl + '" target="_blank" rel="noopener">Ver @bacata_fundacion_ecologica</a></div>';
+        '<a class="btn btn-verde" href="' + CONFIG.instagramUrl + '" target="_blank" rel="noopener">Ver @fundacionecologicabacataf</a></div>';
     };
     fetch(CONFIG.instagramApi, { headers: { Accept: "application/json" } })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
