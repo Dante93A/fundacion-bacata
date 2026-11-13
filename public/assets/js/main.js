@@ -7,6 +7,10 @@
     // Endpoint del feed de Instagram (Cloudflare Pages Function en /functions/api/instagram.js)
     instagramApi: "/api/instagram",
     instagramUrl: "https://www.instagram.com/fundacionecologicabacataf/",
+    // Formulario "Súmate": URL de la aplicación web de Google Apps Script que guarda
+    // cada registro en la hoja de cálculo (ver tools/google-apps-script.gs).
+    // Mientras diga REEMPLAZAR, el botón Enviar abre el correo del visitante como respaldo.
+    hojaUrl: "https://script.google.com/macros/s/AKfycbwPXv10m2qLsYCQFV1fxwM9q3GqDvvLoFzd51kLAAZ3WLWCPTGJg9Sz2IUs9yVZbBo6/exec",
     correo: "febacata@yahoo.es"
   };
 
@@ -150,4 +154,92 @@
       .catch(vacio);
   }
 
+
+  /* ================= Formulario "Súmate" (ayudante / organización) ================= */
+  var form = document.getElementById("form-contacto");
+  if (form) {
+    var estado = form.querySelector(".estado");
+    var bloques = form.querySelectorAll("fieldset[data-tipo]");
+
+    function tipoActual() {
+      var r = form.querySelector('input[name="tipo"]:checked');
+      return r ? r.value : "Ayudante";
+    }
+    function cambiarTipo() {
+      var t = tipoActual();
+      bloques.forEach(function (fs) {
+        var activo = fs.getAttribute("data-tipo") === t;
+        fs.hidden = !activo;
+        fs.disabled = !activo; // los campos ocultos no se validan ni se envían
+      });
+      estado.textContent = "";
+      estado.className = "estado";
+    }
+    form.querySelectorAll('input[name="tipo"]').forEach(function (r) { r.addEventListener("change", cambiarTipo); });
+    form.addEventListener("input", function () {
+      if (estado.classList.contains("error")) { estado.textContent = ""; estado.className = "estado"; }
+    });
+    cambiarTipo();
+
+    function recolectar() {
+      var fd = new FormData(form);
+      var datos = {};
+      fd.forEach(function (valor, clave) {
+        if (clave === "botcheck") return;
+        datos[clave] = datos[clave] ? datos[clave] + ", " + valor : String(valor).trim();
+      });
+      return datos;
+    }
+
+    function respaldoCorreo(d) {
+      var etiquetas = {
+        tipo: "Tipo", nombre: "Nombre", organizacion: "Organización", tipo_org: "Tipo de organización",
+        contacto: "Persona de contacto", cargo: "Cargo", email: "Correo", telefono: "Teléfono",
+        barrio: "Barrio / localidad", disponibilidad: "Disponibilidad", intereses: "Intereses",
+        web: "Web / red social", propuesta: "Propuesta", mensaje: "Mensaje"
+      };
+      var lineas = Object.keys(etiquetas).filter(function (k) { return d[k]; })
+        .map(function (k) { return etiquetas[k] + ": " + d[k]; });
+      var quien = d.organizacion || d.nombre || "";
+      window.location.href = "mailto:" + CONFIG.correo +
+        "?subject=" + encodeURIComponent("Súmate (" + d.tipo + ") - " + quien) +
+        "&body=" + encodeURIComponent(lineas.join("\n"));
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (form.querySelector('[name="botcheck"]').checked) return;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        estado.className = "estado error";
+        estado.textContent = "Revisa los campos marcados con *.";
+        return;
+      }
+      var datos = recolectar();
+      if (CONFIG.hojaUrl.indexOf("REEMPLAZAR") === 0) { respaldoCorreo(datos); return; }
+
+      var boton = form.querySelector("button[type=submit]");
+      boton.disabled = true;
+      estado.className = "estado";
+      estado.textContent = "Enviando…";
+      fetch(CONFIG.hojaUrl, { method: "POST", body: new URLSearchParams(datos) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (!j || !j.ok) throw new Error((j && j.error) || "error");
+          var tipo = tipoActual();
+          form.reset();
+          form.querySelector('input[name="tipo"][value="' + tipo + '"]').checked = true;
+          cambiarTipo();
+          estado.className = "estado ok";
+          estado.textContent = tipo === "Organización"
+            ? "¡Gracias! Recibimos los datos de tu organización y te contactaremos pronto."
+            : "¡Gracias por querer ayudar! Te contactaremos pronto.";
+        })
+        .catch(function () {
+          estado.className = "estado error";
+          estado.textContent = "No pudimos enviar el formulario. Escríbenos a " + CONFIG.correo;
+        })
+        .then(function () { boton.disabled = false; });
+    });
+  }
 })();
