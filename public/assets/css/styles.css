@@ -315,7 +315,7 @@ p { margin: 0 0 1em; }
 .nota-llegada li { margin-bottom: 4px; }
 .nota-icono svg { width: 28px; height: 28px; color: var(--tierra); flex: none; margin-top: 2px; }
 
-.fb-marco { min-height: 620px; }
+.fb-marco { min-height: 150px; }
 .fb-marco iframe { width: 100%; max-width: 500px; }
 .fb-ayuda { margin: 12px 0 0; font-size: .9rem; color: var(--tinta-suave); text-align: center; }
 
@@ -376,3 +376,7 @@ p { margin: 0 0 1em; }
 .autorizo { display: flex !important; gap: 10px; align-items: flex-start; font-weight: 500 !important; font-size: .9rem !important; color: var(--tinta-suave) !important; margin: 4px 0 18px !important; cursor: pointer; }
 .autorizo input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--bosque); }
 .formulario .btn-primario { font-size: 1.1rem; padding: 14px 30px; }
+
+/* Facebook: solo la tarjeta de la página + botón grande */
+.fb-marco iframe { height: 150px !important; }
+.fb-boton { display: flex; width: 100%; margin-top: 16px; }
