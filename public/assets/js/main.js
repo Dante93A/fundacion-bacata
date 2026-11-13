@@ -7,7 +7,7 @@
     // Endpoint del feed de Instagram (Cloudflare Pages Function en /functions/api/instagram.js)
     instagramApi: "/api/instagram",
     instagramUrl: "https://www.instagram.com/fundacionecologicabacataf/",
-    correo: "fundacion@febacata.org"
+    correo: "febacata@yahoo.es"
   };
 
   /* ================= Menú móvil ================= */
